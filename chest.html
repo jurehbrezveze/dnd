@@ -1,0 +1,110 @@
+<html>
+    <head>
+	<meta charset="utf-8">
+        <style>
+            h1 {
+                font-size: 50px;
+                color: rgb(255, 170, 0);
+            }
+            a {
+                text-decoration: none;
+                font-size: 20px;
+                color: rgb(255, 170, 0);
+            }
+            button:hover {
+                opacity: 0.6;
+            }
+            button {
+                background-color: #ffae00;
+                color: rgb(0, 0, 0);
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: grab;
+                width: 50%;
+            }
+        </style>
+    </head>
+    <body onload="onLoad()">
+        <center>
+            <a href="dice.html">🎲DICE</a>
+            <a href="chest.html">🗝️CHEST</a>
+            <a href="home.html">🏠HOME</a>
+            <a href="shop.html">🪙SHOP</a>
+            <br>
+            <img src="closed.png" alt="chest" width="404" height="316" id="chest"> 
+            <h1 id="text"><b>Daily chest</b></h1>
+            <button id="btn" onclick="openChest()"><b>Open</b></button><br>
+        </center> 
+        <script>
+            const d = new Date();
+            let hToNextChest =Math.round(((read("time")-d.getTime())+86400000)/3600000);
+            if (hToNextChest == 0) {
+                hToNextChest++;
+            }
+            function write(name,value) {
+                localStorage.setItem(name,value);
+            }
+            function read(name) {
+                return(localStorage.getItem(name));
+            }
+            function clearStorage() {
+                write("bronze",0);
+                write("silver",0);
+                write("gold",0);
+                write("diamond",0);
+                write("time",0);
+            }
+            function fillStorage() {
+                write("diamond",20);
+                write("gold",20);
+                write("silver",20);
+                write("bronze",20);
+            }
+            function onLoad() {
+//                clearStorage();
+//                fillStorage()
+                if(read("username") == null) {
+                    location.replace("login.html");
+                }
+                if (d.getTime() > read("time")+86400000) {
+                    document.getElementById('btn').style.visibility = 'visible';
+                }
+                else {
+                    document.getElementById('btn').style.visibility = 'hidden';
+                    document.getElementById("text").innerHTML = "Next chest in: "+hToNextChest.toString()+" h";
+                }
+            }
+            function openChest() {
+                document.getElementById('btn').style.visibility = 'hidden';
+                document.getElementById("text").innerHTML = "";
+                document.getElementById("chest").src = "chest.gif";
+                setTimeout(() => {  document.getElementById("chest").src = "open.png"; }, 3000);
+                setTimeout(() => {  chestLoot(); }, 3000);       
+                write("time",d.getTime())
+            }
+            function chestLoot() {
+                let random = Math.random()*100;
+                let lootName = "";
+                let lootEmount = Math.round(Math.random()*9)+1
+                let lootImg = "";
+                if(random<5) {
+                    lootName = "diamond";
+                    lootImg = "💎";
+                } else if(random<20) {
+                    lootName = "gold";  
+                    lootImg = "🟡";             
+                } else if(random<70) {
+                    lootName = "silver"; 
+                    lootImg = "⚪";
+                } else {
+                    lootName = "bronze"; 
+                    lootImg = "🟠";
+                }
+                document.getElementById("text").innerHTML = "You got: "+lootEmount.toString()+" x "+lootName+" coins "+lootImg;
+                lootEmount=Number(read(lootName))+lootEmount;
+                write(lootName,lootEmount);
+            }
+        </script>
+    </body>
+</html>

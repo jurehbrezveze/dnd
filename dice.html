@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="utf-8">
+        <style>
+            a {
+                text-decoration: none;
+                font-size: 20px;
+                color: rgb(255, 170, 0);
+            }
+            select {
+                margin: 8px 0;
+                box-sizing: border-box;
+                border: 2px solid rgb(0, 0, 0);
+                border-radius: 4px;
+            }
+            button {
+                margin: 8px 0;
+                box-sizing: border-box;
+                border: 2px solid rgb(0, 0, 0);
+                border-radius: 4px;
+            }
+        </style>
+    </head>
+    <body onload="load()">
+        <center>
+            <a href="dice.html">🎲DICE</a>
+            <a href="chest.html">🗝️CHEST</a>
+            <a href="home.html">🏠HOME</a>
+            <a href="shop.html">🪙SHOP</a>
+            <br>
+            <br><img src="4.png" alt="die" width="100" height="100" id="die"> 
+            <br><button id="btn" onclick="submit()"><b>Roll</b></button><br>
+            <form action="/action_page.php">
+                <select name="number" id="number" onchange="changeNumber()">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                <label for="dice">d</label>
+                <select name="dice" id="dice" onchange="changeImg()">
+                    <option value="4">4</option>
+                    <option value="6">6</option>
+                    <option value="8">8</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                    <option value="20">20</option>
+                  </select>
+              </form>
+              <br><h1 id="text"></h1>
+        </center>   
+        <script>
+            function load() {
+                if(read("username") == null) {
+                    location.replace("login.html");
+                }
+            }
+            let i = 1;
+            let d = 4;
+            function changeImg(){
+                if(document.getElementById("dice").value == 4) {
+                    document.getElementById("die").src = "4.png";
+                    d = 4;
+                }
+                if(document.getElementById("dice").value == 6) {
+                    document.getElementById("die").src = "6.png";
+                    d = 6;
+                }
+                if(document.getElementById("dice").value == 8) {
+                    document.getElementById("die").src = "8.png";
+                    d = 8;
+                }
+                if(document.getElementById("dice").value == 10) {
+                    document.getElementById("die").src = "10.png";
+                    d = 10;
+                }
+                if(document.getElementById("dice").value == 12) {
+                    document.getElementById("die").src = "12.png";
+                    d = 12;
+                }
+                if(document.getElementById("dice").value == 20) {
+                    document.getElementById("die").src = "20.png";
+                    d = 20;
+                }
+            }
+            function changeNumber() {
+                if(document.getElementById("number").value == 1) {
+                    i = 1;
+                }
+                if(document.getElementById("number").value == 2) {
+                    i = 2;
+                }
+                if(document.getElementById("number").value == 3) {
+                    i = 3;
+                }
+                if(document.getElementById("number").value == 4) {
+                    i = 4;
+                }
+                if(document.getElementById("number").value == 5) {
+                    i = 5;
+                }
+            }
+            function submit(){
+                document.getElementById("text").innerHTML = " ";
+                setTimeout(() => {  document.getElementById("text").innerHTML = (Math.round(Math.random()*(d-1))*i)+1; }, 50);
+                
+            }
+        </script>
+    </body>
+</html>

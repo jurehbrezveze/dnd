@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="utf-8">
+        <style>
+            h1 {
+                font-size: 20px;
+                color: rgb(255, 170, 0);
+            }
+            a {
+                text-decoration: none;
+                font-size: 20px;
+                color: rgb(255, 170, 0);
+            }
+            button {
+                background-color: #e9e9e9;
+                color: rgb(0, 0, 0);
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: grab;
+                width: 30%;
+            }
+        </style>
+    </head>
+    <body onload="load()">
+        <center>
+            <a href="dice.html">🎲DICE</a>
+            <a href="chest.html">🗝️CHEST</a>
+            <a href="home.html">🏠HOME</a>
+            <a href="shop.html">🪙SHOP</a>
+            <br>
+            <h1 id="curency">🟠=0 ⚪=0 🟡=0 💎=0</h1>
+            <button id="chest" onclick="chest()"><b>5x🟡 -> 1x🗝️</b></button><br>
+            <button id="diamond" onclick="diamond()"><b>10x🟡 -> 1x💎 </b></button><br>
+            <button id="gold" onclick="gold()"><b>10x⚪ -> 1x🟡</b></button><br>
+            <button id="silver" onclick="silver()"><b>10x🟠 -> 1x⚪</b></button><br>
+        </center>   
+        <script>
+            const d = new Date();
+            function write(name,value) {
+                localStorage.setItem(name,value);
+            }
+            function read(name) {
+                return(localStorage.getItem(name));
+            }
+            function updateCurency() {
+                document.getElementById("curency").innerHTML = "🟠x"+read("bronze")+" ⚪x"+read("silver")+" 🟡x"+read("gold")+ " 💎x"+read("diamond");
+            }
+            function load() {
+                updateCurency();
+                if(read("username") == null) {
+                    location.replace("login.html");
+                }
+                if (d.getTime() > read("time")+86400000) {
+                    document.getElementById('chest').style.visibility = 'hidden';
+                }
+                else {
+                    document.getElementById('chest').style.visibility = 'visible';
+                }
+            }
+            function chest() {
+                if(read("gold")>=5) {
+                    write("gold",Number(read("gold"))-5);
+                    write("time",0)
+                    document.getElementById('chest').style.visibility = 'hidden';
+                    updateCurency();
+                }
+            }
+            function diamond() {
+                if(read("gold")>=10) {
+                    write("gold",Number(read("gold"))-10);
+                    write("diamond",Number(read("diamond"))+1)
+                    updateCurency();
+                }
+            }
+            function gold() {
+                if(read("silver")>=10) {
+                    write("silver",Number(read("silver"))-10);
+                    write("gold",Number(read("gold"))+1)
+                    updateCurency();
+                }
+            }
+            function silver() {
+                if(read("bronze")>=10) {
+                    write("bronze",Number(read("bronze"))-10);
+                    write("silver",Number(read("silver"))+1)
+                    updateCurency();
+                }
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,62 @@
+<html>
+    <head>
+      <style>
+        body {
+          font-family: Garamond, serif;
+        }
+        p {
+            font-size: 50px;
+            color: rgb(255, 0, 0);
+          }
+        button:hover {
+            opacity: 0.6;
+        }
+        button {
+            background-color: #ff0000;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: grab;
+            width: 50%;
+        }
+        input[type=text] {
+          width: 50%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          box-sizing: border-box;
+          border: 2px solid red;
+          border-radius: 4px;
+        }
+        </style>
+    </head>
+    <body>
+        <center>
+            <img src="dnd.png" alt="dnd" width="450" height="300"> 
+            <p><b>Username:</b></p>
+            <form>
+                <input type="text" id="input" name="input">
+            </form>
+              <button id="login" type="submit" onclick="onChange()">Login</button>
+        </center> 
+        <script>
+            function write(name,value) {
+                localStorage.setItem(name,value);
+            }
+            function read(name) {
+                return(localStorage.getItem(name));
+            }
+            function onChange() {          
+                write("bronze",0);
+                write("silver",0);
+                write("gold",0);
+                write("diamond",0);
+                write("time",0);
+                write("username",document.getElementById("input").value);    
+                location.replace("home.html");
+            }
+        </script>
+    </body>
+    <style>
+    </style>
+</html>
